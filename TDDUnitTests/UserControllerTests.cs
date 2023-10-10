@@ -26,7 +26,7 @@
         [Theory]
         [InlineData(0)]
         [InlineData(null)]
-        public async Task GetUserById_With_Incorrect_RequestReturns_Failure(int userId)
+        public async Task GetUserById_With_Incorrect_Request_Returns_Failure(int userId)
         {
             //Act
             var response = await _controller.GetById(userId);
