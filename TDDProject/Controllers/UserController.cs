@@ -9,7 +9,7 @@ namespace TDDProject.Controllers
     {
         [HttpGet]
         [Route("getById/{userId}")]
-        public async Task<IActionResult> GetById(int userId)
+        public async Task<IActionResult> GetByIdAsync(int userId)
         {
             if (userId == 0)
             {
@@ -31,7 +31,11 @@ namespace TDDProject.Controllers
                 }
             };
             var user = users.Where(x => x.UserId == userId).FirstOrDefault();
-            return Ok(user);
+            if (user != null)
+            {
+                return Ok(user);
+            }
+            return NoContent();
         }
     }
 }
