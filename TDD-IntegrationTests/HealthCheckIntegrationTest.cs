@@ -15,7 +15,7 @@
         public async Task HealthCheckApi_Returns_Healthy_Response()
         {
             var response = await _client.GetAsync(Constants.HealthCheckApi);
-            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
         }
     }
 }

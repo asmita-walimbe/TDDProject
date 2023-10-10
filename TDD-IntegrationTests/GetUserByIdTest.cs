@@ -14,30 +14,22 @@
         public async Task GetUserByIdApi_Returns_Success_Response()
         {
             var requestUri = Constants.GetById;
-            requestUri = requestUri.Replace("{userId}", "1");
+            requestUri = requestUri.Replace("{0}", "1");
             var response = await _client.GetAsync(requestUri);
             response.StatusCode.Should().Be(HttpStatusCode.OK);
         }
 
         [Theory]
-        [InlineData(null)]
         [InlineData("")]
         [InlineData(" ")]
         [InlineData("0")]
         public async Task GetUserByIdApi_Returns_BadRequest_Response_When_QueryParam_Is_Not_Sent(string requestParam)
         {
             string requestUri = string.Empty;
-            if (requestParam == null)
-            {
-                requestUri = "api/user/getById/null";
-            }
-            else
-            {
-                requestUri = Constants.GetById;
-                requestUri = requestUri.Replace("{userId}", requestParam);
-            }
+            requestUri = Constants.GetById;
+            requestUri = string.Format(requestUri, requestParam);
             var response = await _client.GetAsync(requestUri);
-            if (requestParam == null || requestParam == "0")
+            if (requestParam == "0")
             {
                 response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
             }
