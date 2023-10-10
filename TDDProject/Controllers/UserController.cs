@@ -15,7 +15,6 @@ namespace TDDProject.Controllers
             {
                 return BadRequest();
             }
-
             var users = new List<User>()
             {
                 new User()
@@ -31,7 +30,7 @@ namespace TDDProject.Controllers
                     Address = "Chennai"
                 }
             };
-            var user = users.Select(x => x.UserId = userId);
+            var user = users.Where(x => x.UserId == userId).FirstOrDefault();
             return Ok(user);
         }
     }

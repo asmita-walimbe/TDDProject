@@ -25,8 +25,7 @@
         [InlineData("0")]
         public async Task GetUserByIdApi_Returns_BadRequest_Response_When_QueryParam_Is_Not_Sent(string requestParam)
         {
-            string requestUri = string.Empty;
-            requestUri = Constants.GetById;
+            var requestUri = Constants.GetById;
             requestUri = string.Format(requestUri, requestParam);
             var response = await _client.GetAsync(requestUri);
             if (requestParam == "0")
