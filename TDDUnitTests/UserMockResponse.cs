@@ -1,6 +1,6 @@
 ﻿using TDDProject.Models;
 
-namespace TDD_IntegrationTests
+namespace TDDUnitTests
 {
     public static class UserMockResponse
     {

@@ -1,19 +1,15 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using TDDProject.Controllers;
-
-namespace TDD_IntegrationTests
+﻿namespace TDDUnitTests
 {
-    public class GetUserByIdUnitTests
+    public class UserControllerTests
     {
         private readonly UserController _controller;
-        public GetUserByIdUnitTests()
+        public UserControllerTests()
         {
             _controller = new UserController();
         }
 
         [Fact]
-        public async Task GetUserById_Returns_Success()
+        public async Task GetUserById_With_Correct_Request_Returns_Success()
         {
             var mockResponse = UserMockResponse.GetUserMockResponse();
 
@@ -30,7 +26,7 @@ namespace TDD_IntegrationTests
         [Theory]
         [InlineData(0)]
         [InlineData(null)]
-        public async Task GetUserById_Returns_Failure(int userId)
+        public async Task GetUserById_With_Incorrect_RequestReturns_Failure(int userId)
         {
             //Act
             var response = await _controller.GetById(userId);
@@ -41,3 +37,4 @@ namespace TDD_IntegrationTests
         }
     }
 }
+
