@@ -1,10 +1,17 @@
+using FluentValidation.AspNetCore;
+using TDDProject.Interfaces;
+using TDDProject.Services;
+using TDDProject.Validators;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
-builder.Services.AddSwaggerGen();
+
+builder.Services.AddControllers()
+    .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<UserValidator>()); builder.Services.AddSwaggerGen();
 builder.Services.AddHealthChecks();
+builder.Services.AddTransient<IUserService, UserService>();
 
 var app = builder.Build();
 
@@ -16,7 +23,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
 app.MapControllers();
 app.MapHealthChecks(TDDProject.Constants.HealthCheckApi);
 
