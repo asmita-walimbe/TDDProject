@@ -24,7 +24,7 @@ namespace TDDProject.Controllers
         /// <param name="userId"></param>
         /// <returns></returns>
         [HttpGet]
-        [Route("{userId}")]
+        [Route("{userId:int}")]
 
         public async Task<IActionResult> GetByIdAsync(int userId)
         {
