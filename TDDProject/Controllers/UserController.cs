@@ -25,7 +25,6 @@ namespace TDDProject.Controllers
         /// <returns></returns>
         [HttpGet("{userId:int}")]
         [ActionName(nameof(GetByIdAsync))]
-        //[Route("getByIdAsync/{userId:int}")]
 
         public async Task<IActionResult> GetByIdAsync(int userId)
         {
