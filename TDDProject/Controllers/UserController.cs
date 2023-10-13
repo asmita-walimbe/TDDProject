@@ -23,8 +23,9 @@ namespace TDDProject.Controllers
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
-        [HttpGet]
-        [Route("{userId:int}")]
+        [HttpGet("{userId:int}")]
+        [ActionName(nameof(GetByIdAsync))]
+        //[Route("getByIdAsync/{userId:int}")]
 
         public async Task<IActionResult> GetByIdAsync(int userId)
         {
@@ -54,7 +55,7 @@ namespace TDDProject.Controllers
                 return BadRequest(validationResult);
             }
             var response = await _userService.AddUserAsync(user);
-            return CreatedAtAction(nameof(GetByIdAsync), response.Id, response);
+            return CreatedAtAction(nameof(GetByIdAsync), new { id = response.Id }, response);
         }
     }
 }
