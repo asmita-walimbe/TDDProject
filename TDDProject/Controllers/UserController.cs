@@ -25,7 +25,6 @@ namespace TDDProject.Controllers
         /// <returns></returns>
         [HttpGet("{userId:int}")]
         [ActionName(nameof(GetByIdAsync))]
-
         public async Task<IActionResult> GetByIdAsync(int userId)
         {
             if (userId == 0)
@@ -38,6 +37,17 @@ namespace TDDProject.Controllers
                 return Ok(response);
             }
             return NotFound();
+        }
+
+        [HttpGet()]
+        public async Task<IActionResult> GetAllAsync()
+        {
+            var response = await _userService.GetAllAsync();
+            if (response != null)
+            {
+                return Ok(response);
+            }
+            return NoContent();
         }
 
         /// <summary>
@@ -53,8 +63,23 @@ namespace TDDProject.Controllers
             {
                 return BadRequest(validationResult);
             }
-            var response = await _userService.AddUserAsync(user);
-            return CreatedAtAction(nameof(GetByIdAsync), new { id = response.Id }, response);
+            var response = await _userService.AddAsync(user);
+            return Ok(response);
+            //return CreatedAtAction(nameof(GetByIdAsync), new { id = response.Id }, response);
+        }
+
+        [HttpPut("{id:int}")]
+        public async Task<IActionResult> UpdateUserAsync(int id, [FromBody] User user)
+        {
+            await _userService.UpdateAsync(id, user);
+            return NoContent();
+        }
+
+        [HttpDelete("{id:int}")]
+        public async Task<IActionResult> DeleteAsync(int id)
+        {
+            await _userService.DeleteAsync(id);
+            return NoContent();
         }
     }
 }

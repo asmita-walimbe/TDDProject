@@ -1,7 +1,9 @@
 using FluentValidation.AspNetCore;
 using TDDProject.Interfaces;
+using TDDProject.MongoDB;
 using TDDProject.Services;
 using TDDProject.Validators;
+using static TDDProject.MongoDB.MongoDBContext;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,7 +13,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers()
     .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<UserValidator>()); builder.Services.AddSwaggerGen();
 builder.Services.AddHealthChecks();
-builder.Services.AddTransient<IUserService, UserService>();
+var settings = builder.Configuration.GetSection(nameof(MongoDBContext)).Get<MongoDbSettings>();
+var _dbContext = new MongoDBContext(settings.ConnectionString, settings.DatabaseName, settings.CollectionName);
+builder.Services.AddSingleton<MongoDBContext>(_dbContext);
+builder.Services.AddScoped<IUserService, UserService>();
 
 var app = builder.Build();
 
