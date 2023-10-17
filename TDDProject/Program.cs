@@ -1,11 +1,22 @@
+using FluentValidation.AspNetCore;
+using TDDProject.Interfaces;
+using TDDProject.MongoDB;
+using TDDProject.Services;
+using TDDProject.Validators;
+using static TDDProject.MongoDB.MongoDBContext;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+
+builder.Services.AddControllers()
+    .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<UserValidator>()); builder.Services.AddSwaggerGen();
+builder.Services.AddHealthChecks();
+var settings = builder.Configuration.GetSection(nameof(MongoDBContext)).Get<MongoDbSettings>();
+var _dbContext = new MongoDBContext(settings.ConnectionString, settings.DatabaseName, settings.CollectionName);
+builder.Services.AddSingleton<MongoDBContext>(_dbContext);
+builder.Services.AddScoped<IUserService, UserService>();
 
 var app = builder.Build();
 
@@ -17,9 +28,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
-app.UseAuthorization();
-
 app.MapControllers();
+app.MapHealthChecks(TDDProject.Constants.HealthCheckApi);
 
 app.Run();
+public partial class Program { }
