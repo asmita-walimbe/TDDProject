@@ -39,7 +39,11 @@ namespace TDDProject.Controllers
             return NotFound();
         }
 
-        [HttpGet()]
+        /// <summary>
+        /// Get all users
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
         public async Task<IActionResult> GetAllAsync()
         {
             var response = await _userService.GetAllAsync();
@@ -65,7 +69,6 @@ namespace TDDProject.Controllers
             }
             var response = await _userService.AddAsync(user);
             return Ok(response);
-            //return CreatedAtAction(nameof(GetByIdAsync), new { id = response.Id }, response);
         }
 
         [HttpPut("{id:int}")]
